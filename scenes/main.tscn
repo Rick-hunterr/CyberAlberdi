@@ -1,0 +1,74 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://scenes/Player.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scenes/MapaInicio.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scenes/Controles.tscn" type="PackedScene" id=3]
+[ext_resource path="res://scenes/Callejon.tscn" type="PackedScene" id=4]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Node2D
+
+export (PackedScene) var player
+export (PackedScene) var MapaInicio
+export (PackedScene) var Callejon
+
+var nivelActual = 1
+var JugadorVisible = 2
+
+func _ready():
+	var lvl1 = MapaInicio.instance()
+	add_child(lvl1)
+	var newPlayer = player.instance()
+	add_child(newPlayer)
+	newPlayer.add_to_group(\"player\")  # Asegúrate de añadir el jugador al grupo
+	var spawn_nodes = get_tree().get_nodes_in_group(\"spawnInicial\")
+	print(\"Nodos en el grupo 'spawnInicial': \", spawn_nodes) 
+	if spawn_nodes.size() > 0:
+		newPlayer.global_position = spawn_nodes[0].global_position
+	else:
+		print(\"Error: No hay nodos en el grupo 'spawnInicial'.\")
+	
+func CambiarEscena():
+	var players = get_tree().get_nodes_in_group(\"player\")
+	if players.size() > 0:
+		players[0].queue_free()
+	else:
+		print(\"Error: No hay nodos en el grupo 'player'.\")
+
+	var niveles = get_tree().get_nodes_in_group(\"nivel\")
+	if niveles.size() > 0:
+		niveles[0].free()
+	else:
+		print(\"Error: No hay nodos en el grupo 'nivel'.\")
+
+	match (nivelActual):
+		1:
+			nivelActual = 2
+			spawn(Callejon)
+		2:
+			nivelActual = 1
+			spawn(MapaInicio)
+			JugadorVisible = false
+
+func spawn(escena):
+	var lvl1 = escena.instance()
+	add_child(lvl1)
+	var newPlayer = player.instance()
+	add_child(newPlayer)
+	newPlayer.add_to_group(\"player\")  # Asegúrate de añadir el jugador al grupo
+	var spawn_nodes = get_tree().get_nodes_in_group(\"spawn\")
+	print(\"Nodos en el grupo 'spawn': \", spawn_nodes) 
+	if spawn_nodes.size() > 0:
+		newPlayer.global_position = spawn_nodes[0].global_position
+	else:
+		print(\"Error: No hay nodos en el grupo 'spawn'.\")
+"
+
+[node name="main" type="Node2D" groups=["main"]]
+position = Vector2( 0, -7 )
+script = SubResource( 1 )
+player = ExtResource( 1 )
+MapaInicio = ExtResource( 2 )
+Callejon = ExtResource( 4 )
+
+[node name="Controles" parent="." instance=ExtResource( 3 )]
