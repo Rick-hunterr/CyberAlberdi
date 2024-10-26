@@ -5,7 +5,6 @@
 	<meta name='viewport' content='width=device-width, user-scalable=no' />
 	<title>Juego CyberExplorer</title>
 	<style type='text/css'>
-
 		body {
 			touch-action: none;
 			margin: 0;
@@ -34,10 +33,21 @@
 			box-shadow: 0 0 1px 1px #2f2d35;
 		}
 
+		/* Botones de pantalla completa */
+		#fullscreen-btn, #exit-fullscreen-btn {
+			margin: 10px;
+			padding: 10px 20px;
+			color: white;
+			background-color: #007bff;
+			border: none;
+			cursor: pointer;
+		}
 
-		/* Status display
-		 * ============== */
+		#fullscreen-btn:hover, #exit-fullscreen-btn:hover {
+			background-color: #0056b3;
+		}
 
+		/* Status display */
 		#status {
 			position: absolute;
 			left: 0;
@@ -47,7 +57,6 @@
 			display: flex;
 			justify-content: center;
 			align-items: center;
-			/* don't consume click events - make children visible explicitly */
 			visibility: hidden;
 		}
 
@@ -114,7 +123,6 @@
 	</style>
 <link id='-gd-engine-icon' rel='icon' type='image/png' href='index.icon.png' />
 <link rel='apple-touch-icon' href='index.apple-touch-icon.png'/>
-
 </head>
 <body>
 	<canvas id='canvas'>
@@ -136,13 +144,19 @@
 		<div id='status-notice' class='godot' style='display: none;'></div>
 	</div>
 
+	<!-- Botones de pantalla completa -->
+	<button id="fullscreen-btn">Pantalla Completa</button>
+	<button id="exit-fullscreen-btn" style="display:none;">Salir de Pantalla Completa</button>
+
 	<script type='text/javascript' src='index.js'></script>
 	<script type='text/javascript'>//<![CDATA[
-
 		const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":1881120,"index.wasm":25658069},"focusCanvas":false,"gdnativeLibs":[]};
-		var engine = new Engine(GODOT_CONFIG);
+		var engine;
 
-		(function() {
+		// Función para iniciar el juego
+		function startGame() {
+			engine = new Engine(GODOT_CONFIG);
+
 			const INDETERMINATE_STATUS_STEP_MS = 100;
 			var statusProgress = document.getElementById('status-progress');
 			var statusProgressInner = document.getElementById('status-progress-inner');
@@ -160,7 +174,6 @@
 			requestAnimationFrame(animate);
 
 			function setStatusMode(mode) {
-
 				if (statusMode === mode || !initializing)
 					return;
 				[statusProgress, statusIndeterminate, statusNotice].forEach(elem => {
@@ -241,8 +254,42 @@
 					initializing = false;
 				}, displayFailureNotice);
 			}
-		})();
+		}
+
+		// Funciones para pantalla completa
+		const fullscreenBtn = document.getElementById('fullscreen-btn');
+		const exitFullscreenBtn = document.getElementById('exit-fullscreen-btn');
+
+		fullscreenBtn.addEventListener('click', () => {
+			if (canvas.requestFullscreen) {
+				canvas.requestFullscreen();
+			} else if (canvas.mozRequestFullScreen) { // Firefox
+				canvas.mozRequestFullScreen();
+			} else if (canvas.webkitRequestFullscreen) { // Chrome, Safari and Opera
+				canvas.webkitRequestFullscreen();
+			} else if (canvas.msRequestFullscreen) { // IE/Edge
+				canvas.msRequestFullscreen();
+			}
+			fullscreenBtn.style.display = 'none';
+			exitFullscreenBtn.style.display = 'inline';
+
+			// Iniciar el juego solo después de entrar en pantalla completa
+			startGame();
+		});
+
+		exitFullscreenBtn.addEventListener('click', () => {
+			if (document.exitFullscreen) {
+				document.exitFullscreen();
+			} else if (document.mozCancelFullScreen) { // Firefox
+				document.mozCancelFullScreen();
+			} else if (document.webkitExitFullscreen) { // Chrome, Safari and Opera
+				document.webkitExitFullscreen();
+			} else if (document.msExitFullscreen) { // IE/Edge
+				document.msExitFullscreen();
+			}
+			fullscreenBtn.style.display = 'inline';
+			exitFullscreenBtn.style.display = 'none';
+		});
 	//]]></script>
 </body>
 </html>
-
