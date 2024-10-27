@@ -14,6 +14,33 @@
 			background-color: black;
 		}
 
+		#fullscreen-btn {
+			padding: 10px;
+			border-radius: 20px;
+			font-size: 22px;
+			width: 200px;
+			font-weight: 500;
+			color: yellow;
+			background-color: black;
+			border: solid 3px fuchsia;
+			animation-name: crecer;
+			animation-duration: 2s;
+			animation-iteration-count: infinite;
+			filter: drop-shadow(0 0 10px rgb(0, 255, 255));
+		}
+
+		@keyframes crecer {
+			0% {
+				transform: scale(1);
+			}
+			50% {
+				transform: scale(1.1);
+			}
+			100% {
+				transform: scale(1);
+			}
+		}
+
 		#canvas {
 			display: block;
 			margin: 0;
@@ -31,20 +58,6 @@
 			background-image: linear-gradient(to bottom, #403e48, #35333c);
 			border: 1px solid #45434e;
 			box-shadow: 0 0 1px 1px #2f2d35;
-		}
-
-		/* Botones de pantalla completa */
-		#fullscreen-btn, #exit-fullscreen-btn {
-			margin: 10px;
-			padding: 10px 20px;
-			color: white;
-			background-color: #007bff;
-			border: none;
-			cursor: pointer;
-		}
-
-		#fullscreen-btn:hover, #exit-fullscreen-btn:hover {
-			background-color: #0056b3;
 		}
 
 		/* Status display */
@@ -145,12 +158,13 @@
 	</div>
 
 	<!-- Botones de pantalla completa -->
-	<button id="fullscreen-btn">Pantalla Completa</button>
+	<button id="fullscreen-btn">Jugar</button>
 	<button id="exit-fullscreen-btn" style="display:none;">Salir de Pantalla Completa</button>
 
 	<script type='text/javascript' src='index.js'></script>
 	<script type='text/javascript'>//<![CDATA[
-		const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":1881120,"index.wasm":25658069},"focusCanvas":false,"gdnativeLibs":[]};
+
+		const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":16313584,"index.wasm":25658069},"focusCanvas":false,"gdnativeLibs":[]};
 		var engine;
 
 		// Función para iniciar el juego
