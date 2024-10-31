@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html xmlns='http://www.w3.org/1999/xhtml' lang='' xml:lang=''>
 <head>
@@ -246,3 +247,306 @@
 </body>
 </html>
 
+=======
+<!DOCTYPE html>
+<html xmlns='http://www.w3.org/1999/xhtml' lang='' xml:lang=''>
+<head>
+    <meta charset='utf-8' />
+    <meta name='viewport' content='width=device-width, user-scalable=no' />
+    <title>Juego CyberExplorer</title>
+    <style type='text/css'>
+        body {
+            touch-action: none;
+            text-align: center;
+            background-color: black;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+		}
+		@media only screen and (orientation:portrait) {
+			body {
+				display: block;
+			}
+        }
+        img {
+            position: absolute;
+            z-index: -1;
+            width: 80vw;
+			margin-bottom: 30px;
+            object-fit: cover;
+			top: 0;
+			left: 0;
+			margin-left: 10%;
+        }
+        #canvas {
+            display: block;
+            margin: 0;
+            color: white;
+        }
+
+        #canvas:focus {
+            outline: none;
+        }
+
+        .godot {
+            font-family: 'Noto Sans', 'Droid Sans', Arial, sans-serif;
+            color: #e0e0e0;
+            background-color: #3b3943;
+            background-image: linear-gradient(to bottom, #403e48, #35333c);
+            border: 1px solid #45434e;
+            box-shadow: 0 0 1px 1px #2f2d35;
+        }
+
+        /* Status display */
+        #status {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            visibility: hidden;
+        }
+
+
+        #status-progress {
+            width: 366px;
+            height: 10px;
+            background-color: rgba(30, 30, 30, 0.8);
+            border: 1px solid #00ffcc;
+            box-shadow: 0 0 20px #00ffcc, 0 0 30px #00ffcc;
+            border-radius: 5px;
+            overflow: hidden;
+            visibility: visible;
+        }
+
+        @media only screen and (orientation:portrait) {
+            #status-progress {
+                width: 61.8%;
+            }
+        }
+
+        #status-progress-inner {
+            height: 100%;
+            width: 0;
+            box-sizing: border-box;
+            transition: width 0.5s linear;
+            background-color: #00ffcc;
+            border-radius: 5px;
+            box-shadow: 0 0 10px #00ffcc, 0 0 20px #00ffcc;
+        }
+
+        #status-indeterminate {
+            height: 42px;
+            visibility: visible;
+            position: relative;
+        }
+
+        #status-indeterminate > div {
+            width: 4px;
+            height: 20px;
+            background-color: #00ffcc;
+            position: absolute;
+            animation: bounce 1s infinite;
+            transform-origin: center bottom;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        #status-indeterminate > div:nth-child(1) { left: 10%; animation-delay: 0s; }
+        #status-indeterminate > div:nth-child(2) { left: 30%; animation-delay: 0.1s; }
+        #status-indeterminate > div:nth-child(3) { left: 50%; animation-delay: 0.2s; }
+        #status-indeterminate > div:nth-child(4) { left: 70%; animation-delay: 0.3s; }
+        #status-indeterminate > div:nth-child(5) { left: 90%; animation-delay: 0.4s; }
+
+        #status-notice {
+            margin: 0 100px;
+            line-height: 1.3;
+            visibility: visible;
+            padding: 4px 6px;
+            visibility: visible;
+        }
+
+        #fullscreen-btn {
+            position: relative;
+            padding: 10px;
+            border-radius: 20px;
+            font-size: 22px;
+            width: 200px;
+            font-weight: 500;
+            color: yellow;
+            background-color: black;
+            border: solid 3px fuchsia;
+            animation-name: crecer;
+            animation-duration: 2s;
+            animation-iteration-count: infinite;
+            filter: drop-shadow(0 0 10px rgb(0, 255, 255));
+            position: relative;
+            margin-top: 30vh;
+        }
+
+        @keyframes crecer {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+    </style>
+<link id='-gd-engine-icon' rel='icon' type='image/png' href='index.icon.png' />
+<link rel='apple-touch-icon' href='index.apple-touch-icon.png'/>
+
+</head>
+<body>
+    <canvas id='canvas'>
+        HTML5 canvas appears to be unsupported in the current browser.<br />
+        Please try updating or use a different browser.
+    </canvas>
+    <div id='status'>
+        <div id='status-progress' style='display: none;' oncontextmenu='event.preventDefault();'><div id ='status-progress-inner'></div></div>
+        <div id='status-indeterminate' style='display: none;' oncontextmenu='event.preventDefault();'>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <div id='status-notice' class='godot' style='display: none;'></div>
+    </div>
+    <img src="pantalla carga2.png" alt="Imagen de carga">
+    <!-- Botones para iniciar y salir del juego -->
+    <button id="fullscreen-btn">Jugar</button>
+
+    <script type='text/javascript' src='index.js'></script>
+    <script type='text/javascript'>//<![CDATA[
+
+        const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":162590880,"index.wasm":25658069},"focusCanvas":false,"gdnativeLibs":[]};
+        
+        function startGame() {
+            var engine = new Engine(GODOT_CONFIG);
+
+        (function() {
+            const INDETERMINATE_STATUS_STEP_MS = 100;
+            var statusProgress = document.getElementById('status-progress');
+            var statusProgressInner = document.getElementById('status-progress-inner');
+            var statusIndeterminate = document.getElementById('status-indeterminate');
+            var statusNotice = document.getElementById('status-notice');
+
+            var initializing = true;
+            var statusMode = 'hidden';
+
+            var animationCallbacks = [];
+            function animate(time) {
+                animationCallbacks.forEach(callback => callback(time));
+                requestAnimationFrame(animate);
+            }
+            requestAnimationFrame(animate);
+
+            function setStatusMode(mode) {
+
+                if (statusMode === mode || !initializing)
+                    return;
+                [statusProgress, statusIndeterminate, statusNotice].forEach(elem => {
+                    elem.style.display = 'none';
+                });
+                animationCallbacks = animationCallbacks.filter(function(value) {
+                    return (value != animateStatusIndeterminate);
+                });
+                switch (mode) {
+                    case 'progress':
+                        statusProgress.style.display = 'block';
+                        break;
+                    case 'indeterminate':
+                        statusIndeterminate.style.display = 'block';
+                        animationCallbacks.push(animateStatusIndeterminate);
+                        break;
+                    case 'notice':
+                        statusNotice.style.display = 'block';
+                        break;
+                    case 'hidden':
+                        break;
+                    default:
+                        throw new Error('Invalid status mode');
+                }
+                statusMode = mode;
+            }
+
+            function animateStatusIndeterminate(ms) {
+                var i = Math.floor(ms / INDETERMINATE_STATUS_STEP_MS % 8);
+                if (statusIndeterminate.children[i].style.borderTopColor == '') {
+                    Array.prototype.slice.call(statusIndeterminate.children).forEach(child => {
+                        child.style.borderTopColor = '';
+                    });
+                    statusIndeterminate.children[i].style.borderTopColor = '#dfdfdf';
+                }
+            }
+
+            function setStatusNotice(text) {
+                while (statusNotice.lastChild) {
+                    statusNotice.removeChild(statusNotice.lastChild);
+                }
+                var lines = text.split('\n');
+                lines.forEach((line) => {
+                    statusNotice.appendChild(document.createTextNode(line));
+                    statusNotice.appendChild(document.createElement('br'));
+                });
+            };
+
+            function displayFailureNotice(err) {
+                var msg = err.message || err;
+                console.error(msg);
+                setStatusNotice(msg);
+                setStatusMode('notice');
+                initializing = false;
+            };
+
+            if (!Engine.isWebGLAvailable()) {
+                displayFailureNotice('WebGL not available');
+            } else {
+                setStatusMode('indeterminate');
+                engine.startGame({
+                    'onProgress': function (current, total) {
+                        if (total > 0) {
+                            statusProgressInner.style.width = current/total * 100 + '%';
+                            setStatusMode('progress');
+                            if (current === total) {
+                                // wait for progress bar animation
+                                setTimeout(() => {
+                                    setStatusMode('indeterminate');
+                                }, 500);
+                            }
+                        } else {
+                            setStatusMode('indeterminate');
+                        }
+                    },
+                }).then(() => {
+                    setStatusMode('hidden');
+                    initializing = false;
+                }, displayFailureNotice);
+            }
+        })();
+    }
+        // Función para pantalla completa
+        const fullscreenBtn = document.getElementById('fullscreen-btn');
+
+        fullscreenBtn.addEventListener('click', () => {
+            if (canvas.requestFullscreen) {
+                canvas.requestFullscreen();
+            } else if (canvas.mozRequestFullScreen) { // Firefox
+                canvas.mozRequestFullScreen();
+            } else if (canvas.webkitRequestFullscreen) { // Chrome, Safari and Opera
+                canvas.webkitRequestFullscreen();
+            } else if (canvas.msRequestFullscreen) { // IE/Edge
+                canvas.msRequestFullscreen();
+            }
+            startGame();
+            fullscreenBtn.style.display = 'none';
+        });
+        //]]>
+    </script>
+</body>
+</html>
+>>>>>>> 17d24c2917545520fcd0400cd50806723c7cca71
