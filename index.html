@@ -7,8 +7,9 @@
 
     <meta property="og:title" content="CyberAlberdi" />
     <meta property="og:description" content="Juego de Ciberseguridad 6°e programación" />
-    <meta property="og:image" itemprop="image" content="https://github.com/Rick-hunterr/CyberAlberdi/blob/0759b02844b080b88cc441f1c5420f95ff75d356/pantalla%20carga2.png" />
+    <meta property="og:image" itemprop="image" content="https://raw.githubusercontent.com/Rick-hunterr/CyberAlberdi/refs/heads/main/pantalla%20carga2.png" />
         <link rel="icon" href="Robott.ico" type="image/x-icon">
+        <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
 
     <style type='text/css'>
         body {
@@ -21,33 +22,49 @@
             width: 100vw;
             height: 100vh;
             overflow: hidden;
-            font-family: 'Courier New', Courier, monospace; /* Fuente estilo pixel */
         }
         .portrait-warning {
-            display: none;
-            color: #ff00ff; /* Color neón */
-            font-size: 32px; /* Tamaño de fuente aumentado */
-            font-family: 'Press Start 2P', cursive; /* Fuente estilo pixel */
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 10;
-            text-shadow: 
-                0 0 5px #00ffcc, 
-                0 0 10px #00ffcc, 
-                0 0 15px #ff00ff, 
-                0 0 20px #ff00ff, 
-                0 0 25px #00ffcc, 
-                0 0 30px #00ffcc; /* Efecto de neón más pronunciado */
-            animation: flicker 1.5s infinite alternate; /* Efecto de parpadeo */
-        }
+  display: none;
+  color: #ff00ff; /* Color neón */
+  font-size: 32px; /* Tamaño de fuente aumentado */
+  font-family: 'VT323', monospace;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  text-shadow: 
+    0 0 5px #00ffcc, 
+    0 0 10px #00ffcc, 
+    0 0 15px #ff00ff, 
+    0 0 20px #ff00ff, 
+    0 0 25px #00ffcc, 
+    0 0 30px #00ffcc; /* Efecto de neón más pronunciado */
+  animation: flicker 1.5s infinite alternate; /* Efecto de parpadeo */
+  background: linear-gradient(to bottom, #2f2f2f, #1a1a1a); /* Fondo degradado */
+  padding: 10px; /* Espacio alrededor del texto */
+  border: 1px solid #00ffcc; /* Borde de neón */
+  box-shadow: 0 0 10px #00ffcc; /* Sombra de neón */
+}
 
-        @keyframes flicker {
-            0% { opacity: 1; }
-            50% { opacity: 0.8; }
-            100% { opacity: 1; }
-        }
+@keyframes flicker {
+  0% { opacity: 1; }
+  50% { opacity: 0.8; }
+  100% { opacity: 1; }
+}
+
+/* Agregamos un efecto de distorsión para darle un toque más cyberpunk */
+.portrait-warning::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, #2f2f2f, #1a1a1a);
+  filter: blur(5px);
+  z-index: -1;
+}
 
         img {
             position: absolute;
